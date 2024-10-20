@@ -4,6 +4,9 @@
 #include <vector>
 #include <cstddef>
 #include <algorithm>
+#include <CL/sycl.hpp>
+
+using namespace cl;
 
 namespace jmyml {
 
@@ -11,13 +14,19 @@ template<typename Real>
 class LinearLayer {
 public:
     LinearLayer(size_t _in_dim, size_t _out_dim)
-        : in_dim{_in_dim}, out_dim{_out_dim}, w(_in_dim*_out_dim), b(_out_dim)
+        : in_dim{_in_dim}, out_dim{_out_dim}, w(sycl::range{_out_dim,_in_dim}), b(sycl::range{_out_dim})
     { };
 
     static LinearLayer make_constant(size_t _in_dim, size_t _out_dim, Real _w, Real _b) {
         LinearLayer L(_in_dim, _out_dim);
-        std::fill(L.w.begin(), L.w.end(), _w);
-        std::fill(L.b.begin(), L.b.end(), _b);
+        sycl::host_accessor pw{L.w};
+        sycl::host_accessor pb{L.b};
+        for (size_t i = 0; i < L.out_dim; i++) {
+            for (size_t j = 0; j < L.in_dim; j++) {
+                pw[i][j] = _w;
+            }
+            pb[i] = _b;
+        }
         return L;
     }
 
@@ -27,14 +36,21 @@ public:
         return L;
     }
 
-    void forward(std::vector<Real>& x, std::vector<Real>& y) {
-        for (size_t i = 0; i<out_dim; i++)  { //TODO: Matrix class
-            y[i] = 0;
-            for (size_t j = 0; j<in_dim; j++) {
-                y[i] += w[i*in_dim + j]*x[j];
-            }
-            y[i] +=  b[i];
-        }
+    void forward(sycl::queue Q, sycl::buffer<Real>& x, sycl::buffer<Real>& y) {
+        Q.submit([&](sycl::handler& h) {
+            sycl::accessor px{x, h};
+            sycl::accessor py{y, h};
+            sycl::accessor pw{w, h};
+            sycl::accessor pb{b, h};
+
+            h.parallel_for(out_dim, [=](auto& i){
+                py[i] = 0;
+                for (size_t j = 0; j<in_dim; j++) {
+                    py[i] += pw[i][j]*px[j];
+                }
+                py[i] += pb[i];
+            });
+        });
     }
 
     void backward();
@@ -42,11 +58,10 @@ public:
 private:
     size_t in_dim;
     size_t out_dim;
-    std::vector<Real> w;
-    std::vector<Real> b;
+    sycl::buffer<Real,2> w;
+    sycl::buffer<Real> b;
 };
 
 }
-
 
 #endif /* JMYML_LINEAR_LAYER_H */
