@@ -11,6 +11,7 @@ set(DEBUG_FLAGS ${WARNING_FLAGS} -O0 -g)
 set(RELEASE_FLAGS ${WARNING_FLAGS} ${PERFORMANCE_FLAGS})
 
 add_subdirectory(fmt)
+add_subdirectory(googletest)
 
 #add_library(jmyml
     #add further files here
@@ -18,7 +19,24 @@ add_subdirectory(fmt)
 
 include_directories(.)
 
+enable_testing()
+
+add_executable(
+  LinearLayer.test
+  jmyml/LinearLayer.test.cpp
+)
+
+target_link_libraries(
+  LinearLayer.test
+  GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(LinearLayer.test)
+
+
 add_executable(main main.cpp)
+
 # target_link_libraries(main PRIVATE jmyml)
 target_link_libraries(main PRIVATE fmt::fmt)
 target_compile_options(main PRIVATE
