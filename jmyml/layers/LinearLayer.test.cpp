@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <jmyml/LinearLayer.hpp>
+#include <jmyml/layers/LinearLayer.hpp>
 
 TEST(LinearLayer, Forward) {
   using Real = double;

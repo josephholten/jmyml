@@ -1,4 +1,4 @@
-#include <jmyml/LinearLayer.hpp>
+#include <jmyml/layers/LinearLayer.hpp>
 #include <vector>
 #include <fmt/ranges.h>
 
