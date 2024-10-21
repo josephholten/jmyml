@@ -5,6 +5,8 @@ project(jmyml VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(JMYML_BUILD_IDXVIEWER "build IdxViewer" OFF)
+
 ### FLAGS
 set(WARNING_FLAGS -Wall -Werror -Wpedantic -Wno-unused-function)
 set(DEBUG_FLAGS ${WARNING_FLAGS} -O0 -g)
@@ -21,7 +23,10 @@ include_directories(.)
 
 add_subdirectory(fmt)
 add_subdirectory(googletest)
-add_subdirectory(raylib)
+
+if(JMYML_BUILD_IDXVIEWER)
+  add_subdirectory(raylib)
+endif()
 
 add_subdirectory(jmyml)
 
