@@ -21,7 +21,7 @@ struct IdxFile {
         Null,
     };
 
-    void* data;
+    void* data = nullptr;
     std::vector<int> shape;
     DataType type = DataType::Null;
 
@@ -31,9 +31,15 @@ struct IdxFile {
 
         // first two bytes must be zero
         char c = fs.get();
-        assert(c == 0 && "magic number: not an idx file!");
+        if (c != 0) {
+            fmt::println("magic number: not an idx file!");
+            exit(1);
+        }
         c = fs.get();
-        assert(c == 0 && "magic number: not an idx file!");
+        if (c != 0) {
+            fmt::println("magic number: not an idx file!");
+            exit(1);
+        }
 
         // next byte encodes type of data
         char t = fs.get();

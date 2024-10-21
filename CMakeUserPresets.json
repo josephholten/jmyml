@@ -1,0 +1,45 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+      "major": 3,
+      "minor": 23,
+      "patch": 0
+    },
+    "configurePresets": [
+      {
+        "name": "acpp-debug",
+        "inherits": "debug",
+        "displayName": "AdaptiveCpp SYCL Debug Configure Preset",
+        "description": "Configure using acpp compiler to compile sycl",
+        "cacheVariables": {
+          "CMAKE_CXX_COMPILER": "acpp"
+        }
+      },
+      {
+        "name": "acpp-release",
+        "inherits": "release",
+        "displayName": "AdaptiveCpp SYCL Release Configure Preset",
+        "description": "Configure using acpp compiler to compile sycl",
+        "cacheVariables": {
+          "CMAKE_CXX_COMPILER": "acpp"
+        }
+      }
+    ],
+    "buildPresets": [
+      {
+        "name": "acpp-debug",
+        "inherits": "debug",
+        "displayName": "AdaptiveCpp SYCL Debug Build Preset",
+        "configurePreset": "acpp-debug",
+        "jobs": 8
+      },
+      {
+        "name": "acpp-release",
+        "inherits": "release",
+        "displayName": "AdaptiveCpp SYCL Release Build Preset",
+        "configurePreset": "acpp-release",
+        "jobs": 8
+      }
+    ]
+  }
+  
