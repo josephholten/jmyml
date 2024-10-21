@@ -7,37 +7,37 @@
     },
     "configurePresets": [
       {
-        "name": "acpp-debug",
+        "name": "sycl-debug",
         "inherits": "debug",
-        "displayName": "AdaptiveCpp SYCL Debug Configure Preset",
+        "displayName": "SYCL Debug Configure Preset",
         "description": "Configure using acpp compiler to compile sycl",
         "cacheVariables": {
-          "CMAKE_CXX_COMPILER": "acpp"
+          "CMAKE_CXX_COMPILER": "YOUR_SYCL_COMPILER_HERE"
         }
       },
       {
-        "name": "acpp-release",
+        "name": "sycl-release",
         "inherits": "release",
-        "displayName": "AdaptiveCpp SYCL Release Configure Preset",
+        "displayName": "SYCL Release Configure Preset",
         "description": "Configure using acpp compiler to compile sycl",
         "cacheVariables": {
-          "CMAKE_CXX_COMPILER": "acpp"
+          "CMAKE_CXX_COMPILER": "YOUR_SYCL_COMPILER_HERE"
         }
       }
     ],
     "buildPresets": [
       {
-        "name": "acpp-debug",
+        "name": "sycl-debug",
         "inherits": "debug",
-        "displayName": "AdaptiveCpp SYCL Debug Build Preset",
-        "configurePreset": "acpp-debug",
+        "displayName": "SYCL Debug Build Preset",
+        "configurePreset": "sycl-debug",
         "jobs": 8
       },
       {
-        "name": "acpp-release",
+        "name": "sycl-release",
         "inherits": "release",
-        "displayName": "AdaptiveCpp SYCL Release Build Preset",
-        "configurePreset": "acpp-release",
+        "displayName": "SYCL Release Build Preset",
+        "configurePreset": "sycl-release",
         "jobs": 8
       }
     ]
