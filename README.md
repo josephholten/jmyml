@@ -17,6 +17,7 @@ where `BUILD_TYPE` is one of `debug` and `release`.
 
 The executable binaries will be output to either `./bin/Debug` or `./bin/Release` depending on the BUILD_TYPE.
 There are a few tests and the executable `IdxViewer`.
+To build IdxViewer you must pass `-DJMYML_BUILD_IDXVIEWER` to the cmake configure command.
 This can visualize images in the `idx` format used by the MNIST dataset.
 You can call this executable for example by
 
