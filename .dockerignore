@@ -1,0 +1,9 @@
+build/*
+bin/*
+.DS_Store
+*.ignore
+data/*
+.git
+raylib
+googletest
+fmt
