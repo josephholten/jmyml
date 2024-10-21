@@ -1,6 +1,8 @@
 #ifndef JMYML_LINEAR_LAYER_H
 #define JMYML_LINEAR_LAYER_H
 
+#include <jmyml/layers/Layer.hpp>
+
 #include <vector>
 #include <cstddef>
 #include <algorithm>
@@ -10,8 +12,8 @@ using namespace cl;
 
 namespace jmyml {
 
-template<typename Real>
-class LinearLayer {
+template<typename Real = DefaultReal>
+class LinearLayer : public Layer<Real> {
 public:
     LinearLayer(size_t _in_dim, size_t _out_dim)
         : in_dim{_in_dim}, out_dim{_out_dim}, w(sycl::range{_out_dim,_in_dim}), b(sycl::range{_out_dim})
@@ -36,7 +38,7 @@ public:
         return L;
     }
 
-    void forward(sycl::queue Q, sycl::buffer<Real>& x, sycl::buffer<Real>& y) {
+    void forward(sycl::queue& Q, sycl::buffer<Real>& x, sycl::buffer<Real>& y) override {
         Q.submit([&](sycl::handler& h) {
             sycl::accessor px{x, h};
             sycl::accessor py{y, h};
@@ -53,7 +55,7 @@ public:
         });
     }
 
-    void backward();
+    void backward(); //TODO
 
 private:
     size_t in_dim;

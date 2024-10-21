@@ -1,2 +1,4 @@
 build/*
 *.ignore
+
+.DS_Store

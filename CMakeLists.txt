@@ -44,6 +44,10 @@ add_executable(LinearLayer.test jmyml/layers/LinearLayer.test.cpp)
 target_link_libraries(LinearLayer.test GTest::gtest_main flags)
 gtest_discover_tests(LinearLayer.test)
 
+add_executable(ActivationLayer.test jmyml/layers/ActivationLayer.test.cpp)
+target_link_libraries(ActivationLayer.test GTest::gtest_main flags)
+gtest_discover_tests(ActivationLayer.test)
+
 add_executable(IdxFile.test jmyml/data/IdxFile.test.cpp)
 target_link_libraries(IdxFile.test GTest::gtest_main flags fmt::fmt)
 gtest_discover_tests(IdxFile.test)
