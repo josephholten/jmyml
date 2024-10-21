@@ -22,7 +22,7 @@ public:
             sycl::accessor px{x, h};
             sycl::accessor py{y, h};
 
-            h.parallel_for(out_dim, [=](auto& i){
+            h.parallel_for(out_dim, [=,this](auto& i){
                 py[i] = f(px[i]);
             });
         });

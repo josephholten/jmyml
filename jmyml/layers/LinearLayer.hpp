@@ -45,7 +45,7 @@ public:
             sycl::accessor pw{w, h};
             sycl::accessor pb{b, h};
 
-            h.parallel_for(out_dim, [=](auto& i){
+            h.parallel_for(out_dim, [=, this](auto& i){
                 py[i] = 0;
                 for (size_t j = 0; j<in_dim; j++) {
                     py[i] += pw[i][j]*px[j];

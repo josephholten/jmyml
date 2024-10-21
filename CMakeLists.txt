@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(jmyml VERSION 0.1.0)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(CMAKE_BINARY_DIR )
 
 ### FLAGS
 set(WARNING_FLAGS -Wall -Werror -Wpedantic -Wno-unused-function -fsanitize=address)
@@ -22,7 +19,7 @@ target_compile_options(flags INTERFACE
 )
 target_link_options(flags INTERFACE $<$<CONFIG:Debug>:${WARNING_LINK_FLAGS}>)
 
-### INLCUDE
+### INCLUDE
 include_directories(.)
 
 add_subdirectory(fmt)
@@ -41,13 +38,13 @@ enable_testing()
 include(GoogleTest)
 
 add_executable(LinearLayer.test jmyml/layers/LinearLayer.test.cpp)
-target_link_libraries(LinearLayer.test GTest::gtest_main flags)
+target_link_libraries(LinearLayer.test PRIVATE GTest::gtest_main flags)
 gtest_discover_tests(LinearLayer.test)
 
 add_executable(ActivationLayer.test jmyml/layers/ActivationLayer.test.cpp)
-target_link_libraries(ActivationLayer.test GTest::gtest_main flags)
+target_link_libraries(ActivationLayer.test PRIVATE GTest::gtest_main flags)
 gtest_discover_tests(ActivationLayer.test)
 
 add_executable(IdxFile.test jmyml/data/IdxFile.test.cpp)
-target_link_libraries(IdxFile.test GTest::gtest_main flags fmt::fmt)
+target_link_libraries(IdxFile.test PRIVATE GTest::gtest_main flags fmt::fmt)
 gtest_discover_tests(IdxFile.test)
