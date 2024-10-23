@@ -3,5 +3,7 @@ build/*
 bin/*
 CMakeUserPresets.json
 compile_commands.*
+detection*.png
+.vscode
 
 .DS_Store
