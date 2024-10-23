@@ -1,54 +1,50 @@
 #ifndef JMYML_ACTIVATION_LAYER_H
 #define JMYML_ACTIVATION_LAYER_H
 
-#include <jmyml/layers/Layer.hpp>
 #include <cstddef>
 #include <CL/sycl.hpp>
 #include <algorithm>
+
+#ifndef Real
+#define Real float
+#endif
 
 using namespace cl;
 
 namespace jmyml {
 
-template<typename Function, typename Real = float>
-class ActivationLayer: public Layer<Real> {
-public:
-    ActivationLayer(size_t dim)
-        : in_dim{dim}, out_dim{dim}
-    { }
+template<int D, typename Activation>
+struct ActivationLayer {
+    static constexpr size_t in_dim = D;
+    static constexpr size_t out_dim = D;
 
-    void forward(sycl::queue& Q, sycl::buffer<Real>& x, sycl::buffer<Real>& y) override {
+    void forward(sycl::queue& Q, sycl::buffer<Real>& x, sycl::buffer<Real>& y) {
         Q.submit([&](sycl::handler& h) {
             sycl::accessor px{x, h};
             sycl::accessor py{y, h};
 
-            h.parallel_for(out_dim, [=,this](auto& i){
-                py[i] = f(px[i]);
+            h.parallel_for(out_dim, [=](auto& i){
+                py[i] = Activation::f(px[i]);
             });
         });
     };
 
     //virtual void backward() = 0? // use f.derivative
-private:
-    size_t in_dim;
-    size_t out_dim;
-    Function f;
 };
 
 /************************** ALL ACTIVATION LAYER CHILDREN HERE **************************/
 
-template<typename Real = DefaultReal>
 struct ReLu {
-    Real operator()(Real x) {
+    static Real f(Real x) {
         return std::max((Real)0,x);
     }
 
-    Real derivative(Real x) {
+    static Real df(Real x) {
         return (std::signbit(x)+1)/2;
     }
 };
-template<typename Real>
-using ReLuLayer = ActivationLayer<ReLu<Real>,Real>;
+template<int D>
+using ReLuLayer = ActivationLayer<D, ReLu>;
 
 }
 

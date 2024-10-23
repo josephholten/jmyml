@@ -4,7 +4,6 @@
 TEST(ReLuLayer, Forward) {
     sycl::queue Q;
 
-    using Real = double;
     std::vector<Real> x_init = {-10, 10, 10, 10};
     std::vector<Real> y_expected = {0, 10, 10, 10};
     std::vector<Real> y_result(y_expected.size());
@@ -12,7 +11,7 @@ TEST(ReLuLayer, Forward) {
     sycl::buffer<Real> x{x_init.data(), sycl::range{4}};
     sycl::buffer<Real> y{sycl::range{4}};
 
-    auto R = jmyml::ReLuLayer<Real>(4);
+    auto R = jmyml::ReLuLayer<4>();
 
     R.forward(Q, x, y);
 
