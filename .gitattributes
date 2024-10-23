@@ -1,4 +1,1 @@
-data/test-images.idx filter=lfs diff=lfs merge=lfs -text
-data/test-labels.idx filter=lfs diff=lfs merge=lfs -text
-data/train-images.idx filter=lfs diff=lfs merge=lfs -text
-data/train-labels.idx filter=lfs diff=lfs merge=lfs -text
+data/mnist/ filter=lfs diff=lfs merge=lfs -text

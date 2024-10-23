@@ -15,14 +15,10 @@ cmake --build --preset sycl-BUILD_TYPE
 
 where `BUILD_TYPE` is one of `debug` and `release`.
 
-The executable binaries will be output to either `./bin/Debug` or `./bin/Release` depending on the BUILD_TYPE.
-There are a few tests and the executable `IdxViewer`.
-To build IdxViewer you must pass `-DJMYML_BUILD_IDXVIEWER` to the cmake configure command.
-This can visualize images in the `idx` format used by the MNIST dataset.
-You can call this executable for example by
+There are two exectubles sofar, which are both GUI applications:
+- idxview: GUI interface visualizing any idx file of rank at least 2, i.e. a collection of images in uncompressed grayscale format. This is very useful for example to visualize the MNIST dataset located in this repository under `data/mnist`.
+LEFT/RIGHT arrow keys page through more images.
+- mldraw: GUI interface to draw numbers with your mouse, which then are detected by a machine learning model implemented with this library.
 
-```
-bin/IdxViewer data/train-images.idx
-```
-
-and using your LEFT/RIGHT arrow keys you can view more images.
+To build the GUI applications you must set the cmake option `JMYML_BUILD_GUI`.
+As the GUI applications build raylib, you can opt out of building them by setting `-DJMYML_BUILD_GUI=OFF`.
