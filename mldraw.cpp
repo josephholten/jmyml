@@ -77,6 +77,26 @@ end:
     return rect;
 }
 
+Rectangle make_square(Rectangle rect) {
+    if (rect.height < rect.width) {
+        int extra = (rect.width - rect.height) / 2;
+        return {
+            .x = rect.x,
+            .y = rect.y - extra,
+            .width = rect.width,
+            .height = rect.height + 2*extra,
+        };
+    } else {
+        int extra = (rect.height - rect.width) / 2;
+        return {
+            .x = rect.x - extra,
+            .y = rect.y,
+            .width = rect.width + 2*extra,
+            .height = rect.height,
+        };
+    }
+}
+
 int main() {
     const int initScreenWidth = 400;
     const int initScreenHeight = 400;
@@ -118,6 +138,7 @@ int main() {
 
         if (IsKeyPressed(KEY_C)) {
             lines.clear();
+            detected = '_';
         }
 
         if (IsKeyPressed(KEY_ENTER)) {
@@ -127,13 +148,16 @@ int main() {
         BeginDrawing(); {
             ClearBackground(bg_color);
             if (!takingImage) {
-                DrawText("please draw a digit, enter to detect, 'c' to clear, 'ESC' to quit", 0, 0, 22, GRAY);
+                DrawText("please draw a digit", 0, 0, 22, GRAY);
+                DrawText("enter to detect, 'c' to clear, 'ESC' to quit", 0, screenHeight-14, 12, GRAY);
                 sprintf(text, "detected: %c (%.2f)", detected, confidence);
+
                 DrawText(text, 0, 25, 22, GRAY);
-                if (detected != '_')
+                if (detected != '_') {
                     DrawRectangleLinesEx(crop, 2., MAGENTA);
-                for (auto p : ps)
-                    DrawCircleV(p, 3., GREEN);
+                    for (auto p : ps)
+                        DrawCircleV(p, 3., GREEN);
+                }
             }
 
             for (auto line : lines) {
@@ -147,19 +171,23 @@ int main() {
             if (image.format != PIXELFORMAT_UNCOMPRESSED_R8G8B8A8) {
                 TraceLog(LOG_ERROR, "image taken from screen is in unrecognized format");
             } else {
-                // 1. step: convert to PIXEL_FORMAT_UNCOMPRESSED_GRAYSCALE
+                // 1. convert to PIXEL_FORMAT_UNCOMPRESSED_GRAYSCALE
                 ImageFormat(&image, PIXELFORMAT_UNCOMPRESSED_GRAYSCALE);
 
-                // 2. step: crop to content
-                // TODO: crop in square aspect ratio
+                // 2.1 compute minimal crop rect
                 crop = get_crop_rect(image, ps.data());
+
+                // 2.2 make square and centered
+                crop = make_square(crop);
+
+                // 2.3 crop
                 ImageCrop(&image, crop);
                 TraceLog(LOG_INFO, "cropped image at %.1fx%.1f to size %.1fx%.1f", crop.x, crop.y, crop.width, crop.height);
 
-                // 3. step: scale to 28x28
+                // 3. scale to 28x28
                 ImageResize(&image, 28, 28);
 
-                // 4. step: send it through NN
+                // 4. send it through NN
                 // std::vector<Real> preds = Model.forward(image.data, image.width*image.height);
                 // auto max_it = std::max_element(preds.begin(), preds.end());
                 // detected = max_it - preds.begin() + '0';
