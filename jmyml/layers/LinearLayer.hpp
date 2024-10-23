@@ -4,13 +4,11 @@
 #include <vector>
 #include <cstddef>
 #include <algorithm>
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 
 #ifndef Real
 #define Real float
 #endif
-
-using namespace cl;
 
 namespace jmyml {
 

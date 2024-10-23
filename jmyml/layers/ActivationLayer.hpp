@@ -2,14 +2,12 @@
 #define JMYML_ACTIVATION_LAYER_H
 
 #include <cstddef>
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <algorithm>
 
 #ifndef Real
 #define Real float
 #endif
-
-using namespace cl;
 
 namespace jmyml {
 
