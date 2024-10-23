@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <fmt/ranges.h>
+#include <vector>
 
 void drawInterface() {
 
@@ -19,21 +20,29 @@ int main() {
     InitWindow(screenWidth, screenHeight, "mldraw");
     SetTargetFPS(60);
 
-    Image drawing = GenImageColor(screenWidth, screenHeight, bg_color);
-    Texture texture;
+    // Image drawing = GenImageColor(screenWidth, screenHeight, bg_color);
+    // Texture texture;
+
+    std::vector<std::vector<Vector2>> lines;
+    bool down = false;
 
     while (!WindowShouldClose()) {
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-            Vector2 mouse_end = GetMousePosition();
-            Vector2 mouse_start = Vector2Subtract(mouse_end, GetMouseDelta());
-
-            ImageDrawLineEx(&drawing, mouse_start, mouse_end, 2., fg_color);
-            UnloadTexture(texture);
-            texture = LoadTextureFromImage(drawing);
+            if (down == false) {
+                down = true;
+                lines.push_back({GetMousePosition()});
+            } else {
+                lines.back().push_back(GetMousePosition());
+            }
+        } else {
+            down = false;
         }
 
+
         BeginDrawing(); {
-            DrawTexture(texture, 0, 0, fg_color);
+            for (auto line : lines) {
+                DrawLineStrip(line.data(), line.size(), fg_color);
+            }
             ClearBackground(bg_color);
         } EndDrawing();
     }
