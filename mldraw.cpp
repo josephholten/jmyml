@@ -41,7 +41,7 @@ int main() {
 
         BeginDrawing(); {
             for (auto line : lines) {
-                DrawLineStrip(line.data(), line.size(), fg_color);
+                DrawSplineCatmullRom(line.data(), line.size(), 5., fg_color);
             }
             ClearBackground(bg_color);
         } EndDrawing();
