@@ -14,11 +14,13 @@ cmake --build --preset sycl-BUILD_TYPE
 ```
 
 where `BUILD_TYPE` is one of `debug` and `release`.
-
-There are two exectubles sofar, which are both GUI applications:
-- idxview: GUI interface visualizing any idx file of rank at least 2, i.e. a collection of images in uncompressed grayscale format. This is very useful for example to visualize the MNIST dataset located in this repository under `data/mnist`.
-LEFT/RIGHT arrow keys page through more images.
-- mldraw: GUI interface to draw numbers with your mouse, which then are detected by a machine learning model implemented with this library.
-
-To build the GUI applications you must set the cmake option `JMYML_BUILD_GUI`.
 As the GUI applications build raylib, you can opt out of building them by setting `-DJMYML_BUILD_GUI=OFF`.
+
+## Executables
+### idxview
+GUI interface visualizing any idx file of rank at least 2, i.e. a collection of images in uncompressed grayscale format. This is very useful for example to visualize the MNIST dataset located in this repository under `data/mnist`.
+LEFT/RIGHT arrow keys page through more images.
+
+### mldraw
+GUI interface to draw numbers with your mouse, which then are detected by a machine learning model implemented with this library.
+
