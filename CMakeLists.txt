@@ -41,7 +41,7 @@ target_link_libraries(main PRIVATE fmt::fmt)
 enable_testing()
 include(GoogleTest)
 
-set(tests jmyml/layers/LinearLayer.test.cpp jmyml/layers/ActivationLayer.test.cpp jmyml/data/IdxFile.test.cpp)
+set(tests jmyml/layers/LinearLayer.test.cpp jmyml/layers/ActivationLayer.test.cpp jmyml/data/IdxFile.test.cpp jmyml/layers/Sequential.test.cpp)
 foreach(testf ${tests})
   cmake_path(GET testf STEM LAST_ONLY test)
   add_executable(${test} ${testf})
