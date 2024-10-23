@@ -21,6 +21,10 @@ As the GUI applications build raylib, you can opt out of building them by settin
 GUI interface visualizing any idx file of rank at least 2, i.e. a collection of images in uncompressed grayscale format. This is very useful for example to visualize the MNIST dataset located in this repository under `data/mnist`.
 LEFT/RIGHT arrow keys page through more images.
 
+![screenshot of idxview](scrot_idxview.png)
+
 ### mldraw
 GUI interface to draw numbers with your mouse, which then are detected by a machine learning model implemented with this library.
+
+![screenshot of mldraw](scrot_mldraw.png)
 
