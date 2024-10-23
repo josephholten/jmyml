@@ -32,6 +32,8 @@ target_link_libraries(scratch PRIVATE flags)
 target_link_libraries(scratch PRIVATE fmt::fmt)
 
 if(JMYML_BUILD_GUI)
+  set(CUSTOMIZE_BUILD ON CACHE BOOL "customize build" FORCE)
+  set(INCLUDE_EVERYTHING ON CACHE BOOL "include all optional formats" FORCE)
   add_subdirectory(raylib)
 
   add_executable(idxview idxview.cpp)
