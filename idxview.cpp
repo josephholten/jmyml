@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 
     int page = 0;
 
-    InitWindow(screenWidth, screenHeight, "idx_viewer");
+    InitWindow(screenWidth, screenHeight, "idxview");
     SetTargetFPS(60);
 
     std::vector<Texture> textures(imageColumns*imageRows);
