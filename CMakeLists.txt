@@ -5,7 +5,7 @@ project(jmyml VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-option(JMYML_BUILD_IDXVIEW "build idxview" OFF)
+option(JMYML_BUILD_GUI "build gui applications" ON)
 
 ### FLAGS
 set(WARNING_FLAGS -Wall -Werror -Wpedantic -Wno-unused-function)
@@ -31,13 +31,18 @@ add_executable(scratch scratch.cpp)
 target_link_libraries(scratch PRIVATE flags)
 target_link_libraries(scratch PRIVATE fmt::fmt)
 
-if(JMYML_BUILD_IDXVIEW)
+if(JMYML_BUILD_GUI)
   add_subdirectory(raylib)
 
   add_executable(idxview idxview.cpp)
   target_link_libraries(idxview PRIVATE flags)
   target_link_libraries(idxview PRIVATE fmt::fmt)
   target_link_libraries(idxview PRIVATE raylib)
+
+  add_executable(mldraw mldraw.cpp)
+  target_link_libraries(mldraw PRIVATE flags)
+  target_link_libraries(mldraw PRIVATE fmt::fmt)
+  target_link_libraries(mldraw PRIVATE raylib)
 endif()
 
 ### TESTS
