@@ -72,9 +72,9 @@ public:
                 int64_t offset_y = (i/out_width)*stride + kernel_offset;
                 // these values are increased such that only j, n values are taken in the following for loops that are in the 2d vector. This is equivilent to padding with 0
                 int64_t lower_width_kernel_limit_for_this_i = std::max(offset_x+lower_kernel_limit, (int64_t)0) - offset_x;
-                int64_t upper_width_kernel_limit_for_this_i = std::min(offset_x+upper_kernel_limit, (int64_t)width) - offset_x;
+                int64_t upper_width_kernel_limit_for_this_i = std::min(offset_x+upper_kernel_limit, (int64_t)width-1) - offset_x;
                 int64_t lower_hight_kernel_limit_for_this_i = std::max(offset_y+lower_kernel_limit, (int64_t)0) - offset_y;
-                int64_t upper_hight_kernel_limit_for_this_i = std::min(offset_y+upper_kernel_limit, (int64_t)hight) - offset_y;
+                int64_t upper_hight_kernel_limit_for_this_i = std::min(offset_y+upper_kernel_limit, (int64_t)hight-1) - offset_y;
                 for (int64_t j = lower_width_kernel_limit_for_this_i; j<=upper_width_kernel_limit_for_this_i; j++) {
                     for (int64_t n = lower_hight_kernel_limit_for_this_i; n<=upper_hight_kernel_limit_for_this_i; n++) {
                         py[i] += pk[n+upper_kernel_limit][j+upper_kernel_limit]*px[(offset_y+n)*width+offset_x+j];
@@ -89,7 +89,7 @@ public:
 
 
 
-
+    #ifdef 0 //for debugging
     void forward_nonparallel(std::vector<Real>& px, std::vector<Real>& py) {
         std::cout<<"testhere"<<std::endl;
         //precompute one commonly used value not dependend on the i in h.parallel_for:
@@ -113,12 +113,13 @@ public:
                 fmt::print("x offset {}, kernel_offset {}\n", offset_x, kernel_offset);
                 fmt::print("y offset {}, kernel_offset {}\n", offset_y, kernel_offset);
                 // these values are increased such that only j, n values are taken in the following for loops that are in the 2d vector. This is equivilent to padding with 0
-                fmt::print("!!!!!!!!!!!!!!");
-                fmt::print("{}; {}; {}; {} \n",lower_kernel_limit, offset_x+lower_kernel_limit, std::max(offset_x+lower_kernel_limit, (int64_t)0), std::max(offset_x+lower_kernel_limit, (int64_t)0) - offset_x);
+                //fmt::print("!!!!!!!!!!!!!!");
+                //fmt::print("{}; {}; {}; {} \n",lower_kernel_limit, offset_x+lower_kernel_limit, std::max(offset_x+lower_kernel_limit, (int64_t)0), std::max(offset_x+lower_kernel_limit, (int64_t)0) - offset_x);
+                fmt::print("{} \n", width);
                 int64_t lower_width_kernel_limit_for_this_i = std::max(offset_x+lower_kernel_limit, (int64_t)0) - offset_x;
-                int64_t upper_width_kernel_limit_for_this_i = std::min(offset_x+upper_kernel_limit, (int64_t)width) - offset_x;
+                int64_t upper_width_kernel_limit_for_this_i = std::min(offset_x+upper_kernel_limit, (int64_t)width-1) - offset_x;
                 int64_t lower_hight_kernel_limit_for_this_i = std::max(offset_y+lower_kernel_limit, (int64_t)0) - offset_y;
-                int64_t upper_hight_kernel_limit_for_this_i = std::min(offset_y+upper_kernel_limit, (int64_t)hight) - offset_y;
+                int64_t upper_hight_kernel_limit_for_this_i = std::min(offset_y+upper_kernel_limit, (int64_t)hight-1) - offset_y;
                 fmt::print("x limit {}to{}, y limit {}to{}\n", lower_width_kernel_limit_for_this_i, upper_width_kernel_limit_for_this_i, lower_hight_kernel_limit_for_this_i, upper_hight_kernel_limit_for_this_i);
 
                 for (int64_t j = lower_width_kernel_limit_for_this_i; j<=upper_width_kernel_limit_for_this_i; j++) {
@@ -135,6 +136,7 @@ public:
     //});
         //});
     }
+    #endif
 
     void backward(); //TODO
 
