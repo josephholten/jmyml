@@ -11,7 +11,7 @@
 
 namespace jmyml {
 
-template<int D, typename Activation>
+template<size_t D, typename Activation>
 struct ActivationLayer {
     static constexpr size_t in_dim = D;
     static constexpr size_t out_dim = D;

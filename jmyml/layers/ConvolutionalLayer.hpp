@@ -12,9 +12,11 @@
 #define Real float
 #endif
 
+// TODO: get rid of type conversions
+
 namespace jmyml {
 
-template<int I, int W, int H, int K, int S, int P>
+template<size_t I, size_t W, size_t H, size_t K, size_t S, size_t P>
 class ConvolutionalLayer {
 public:
     static constexpr size_t in_dim = I;

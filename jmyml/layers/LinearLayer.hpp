@@ -12,7 +12,7 @@
 
 namespace jmyml {
 
-template<int I, int O>
+template<size_t I, size_t O>
 class LinearLayer {
 public:
     static constexpr size_t in_dim = I;
