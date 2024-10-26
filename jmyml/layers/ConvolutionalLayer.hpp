@@ -89,7 +89,7 @@ public:
 
 
 
-    #ifdef 0 //for debugging
+    #if 0 //for debugging
     void forward_nonparallel(std::vector<Real>& px, std::vector<Real>& py) {
         std::cout<<"testhere"<<std::endl;
         //precompute one commonly used value not dependend on the i in h.parallel_for:
