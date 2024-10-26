@@ -27,10 +27,10 @@ struct ActivationLayer {
         });
     };
 
-    //virtual void backward() = 0? // use f.derivative
+    //TODO void backward() // use Activation::df()
 };
 
-/************************** ALL ACTIVATION LAYER CHILDREN HERE **************************/
+/************************** ALL ACTIVATION FUNCTIONS AS STRUCTS HERE **************************/
 
 struct ReLu {
     static Real f(Real x) {

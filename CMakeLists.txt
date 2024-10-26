@@ -53,6 +53,7 @@ include(GoogleTest)
 
 set(tests
   jmyml/layers/LinearLayer.test.cpp
+  jmyml/layers/ConvolutionalLayer.test.cpp
   jmyml/layers/ActivationLayer.test.cpp
   jmyml/data/IdxFile.test.cpp
   jmyml/layers/Sequential.test.cpp
