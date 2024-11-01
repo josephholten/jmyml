@@ -13,6 +13,10 @@
 #endif
 
 // TODO: get rid of type conversions
+// TODO: test if copying and creating a new input for padding>0 is faster than min/max
+// TODO: use something akin to 
+// h.parallel_for(sycl::range<2>{10,5}, [=](auto& i){
+// in order to avoid % or / in for loop
 
 namespace jmyml {
 
