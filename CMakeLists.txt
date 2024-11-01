@@ -57,6 +57,7 @@ set(tests
   jmyml/layers/ActivationLayer.test.cpp
   jmyml/data/IdxFile.test.cpp
   jmyml/layers/Sequential.test.cpp
+  jmyml/loss/Loss.test.cpp
 )
 foreach(testf ${tests})
   cmake_path(GET testf STEM LAST_ONLY test)
