@@ -54,12 +54,7 @@ struct MeanSquaredLoss {
             });
         });
     };
-
-
-
 };
-
-/************************** ALL LOSS FUNCTIONS AS STRUCTS HERE **************************/
 
 }
 
