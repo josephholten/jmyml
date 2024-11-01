@@ -26,8 +26,8 @@ public:
         LinearLayer L;
         sycl::host_accessor pw{L.w};
         sycl::host_accessor pb{L.b};
-        for (size_t i = 0; i < L.out_dim; i++) {
-            for (size_t j = 0; j < L.in_dim; j++) {
+        for (size_t i = 0; i < L.in_dim; i++) {
+            for (size_t j = 0; j < L.out_dim; j++) {
                 pw[i][j] = _w;
             }
             pb[i] = _b;
@@ -71,6 +71,42 @@ public:
                 }
             });
         });
+    }
+
+    void update(sycl::queue& Q, sycl::buffer<Real, 2>& dw, sycl::buffer<Real>& db) {
+        Q.submit([&](sycl::handler& h) {
+            sycl::accessor pdw{dw, h};
+            sycl::accessor pw{w, h};
+
+            h.parallel_for(sycl::range{in_dim, out_dim}, [=](auto& idx){
+                pw[idx] += pdw[idx];
+            });
+        });
+
+        Q.submit([&](sycl::handler& h){
+            sycl::accessor pdb{db, h};
+            sycl::accessor pb{b, h};
+
+            h.parallel_for(sycl::range{out_dim}, [=](auto& i){
+                pb[i] += pdb[i];
+            });
+        });
+    }
+
+    sycl::host_accessor<Real,2,sycl::access_mode::read> w_get_host_access() {
+        return w.get_host_access();
+    }
+
+    sycl::accessor<Real,2,sycl::access_mode::read> w_get_access(sycl::handler& h) {
+        return w.get_access();
+    }
+
+    sycl::host_accessor<Real,1,sycl::access_mode::read> b_get_host_access() {
+        return b.get_host_access();
+    }
+
+    sycl::accessor<Real,1,sycl::access_mode::read> b_get_access(sycl::handler& h) {
+        return b.get_access();
     }
 
 private:
