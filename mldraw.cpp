@@ -150,7 +150,7 @@ int main() {
             if (!takingImage) {
                 DrawText("please draw a digit", 0, 0, 22, GRAY);
                 DrawText("enter to detect, 'c' to clear, 'ESC' to quit", 0, screenHeight-14, 12, GRAY);
-                sprintf(text, "detected: %c (%.2f)", detected, confidence);
+                snprintf(text, 18, "detected: %c (%.2f)", detected, confidence);
 
                 DrawText(text, 0, 25, 22, GRAY);
                 if (detected != '_') {
@@ -197,7 +197,7 @@ int main() {
 
                 detectionCount++;
                 char file_name[] = "detection???.png";
-                sprintf(file_name, "detection%03d.png", detectionCount);
+                snprintf(file_name, 16, "detection%03d.png", detectionCount);
                 ExportImage(image, file_name);
                 TraceLog(LOG_INFO, "exported image as");
             }
