@@ -58,7 +58,20 @@ public:
         });
     }
 
-    void backward(); //TODO
+    void backward(sycl::queue& Q, sycl::buffer<Real>& x, sycl::buffer<Real>& y) {
+        Q.submit([&](sycl::handler& h) {
+            sycl::accessor px{x, h};
+            sycl::accessor py{y, h};
+            sycl::accessor pw{w, h};
+
+            h.parallel_for(out_dim, [=](auto& i){
+                py[i] = 0;
+                for (size_t j = 0; j<in_dim; j++) {
+                    py[i] += pw[i][j]*px[j];
+                }
+            });
+        });
+    }
 
 private:
     sycl::buffer<Real,2> w;
