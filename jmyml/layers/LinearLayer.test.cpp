@@ -48,7 +48,7 @@ TEST(LinearLayer, Update) {
     sycl::queue Q;
     
     std::array<Real,3> b_gradient = {-1, 1, 0};
-    std::array<Real,3> b_expected = {0, 2, 1}; 
+    std::array<Real,3> b_expected = {-1, 3, 1}; 
     std::array<Real,12> w_gradient = {-3,  2, 0,   0,  1, -1, -5, 10, 30,  0,  0, -21};
     std::array<Real,12> w_expected = {17, 22, 20, 20, 21, 19, 15, 30, 50, 20, 20,  -1};
     std::array<Real,12> w;
@@ -62,7 +62,7 @@ TEST(LinearLayer, Update) {
         sycl::buffer<Real,2> dw{w_gradient.data(), sycl::range{4,3}};
         sycl::buffer<Real> db{b_gradient.data(), sycl::range{3}};
 
-        L.update(Q, dw, db);
+        L.update(Q, 1, dw, 2, db);
         auto w_accessor = L.w_get_host_access(); 
         std::copy(w_accessor.begin(), w_accessor.end(), w.begin());
         auto b_accessor = L.b_get_host_access(); 

@@ -73,13 +73,14 @@ public:
         });
     }
 
-    void update(sycl::queue& Q, sycl::buffer<Real, 2>& dw, sycl::buffer<Real>& db) {
+    // W += alpha*dW; b += beta*db
+    void update(sycl::queue& Q, Real alpha, sycl::buffer<Real, 2>& dw, Real beta, sycl::buffer<Real>& db) {
         Q.submit([&](sycl::handler& h) {
             sycl::accessor pdw{dw, h};
             sycl::accessor pw{w, h};
 
             h.parallel_for(sycl::range{in_dim, out_dim}, [=](auto& idx){
-                pw[idx] += pdw[idx];
+                pw[idx] += alpha*pdw[idx];
             });
         });
 
@@ -88,7 +89,7 @@ public:
             sycl::accessor pb{b, h};
 
             h.parallel_for(sycl::range{out_dim}, [=](auto& i){
-                pb[i] += pdb[i];
+                pb[i] += beta*pdb[i];
             });
         });
     }
